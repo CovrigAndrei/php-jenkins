@@ -32,7 +32,7 @@ pipeline {
                 echo 'Rularea testelor unitare...'
                 sh '''
                     echo "Running basic syntax check..."
-                    find src tests -name "*.php" -exec php -l {} \;
+                    find src tests -name "*.php" -exec php -l {} \\;
                     
                     echo "Running unit tests..."
                     php tests/run-all-tests.php
