@@ -17,7 +17,7 @@ pipeline {
         
         stage('Verify Environment') {
             steps {
-                echo 'Verificarea mediul de execuție...'
+                echo '🔧 Verificarea mediului de execuție...'
                 sh '''
                     echo "Working directory: $(pwd)"
                     echo "PHP version: $(php --version | head -1)"
@@ -34,15 +34,18 @@ pipeline {
                     echo "Running basic syntax check..."
                     find src tests -name "*.php" -exec php -l {} \\;
                     
-                    echo "Running unit tests..."
-                    php tests/run-all-tests.php
+                    echo "Running Calculator tests..."
+                    php tests/CalculatorTest.php
+                    
+                    echo "Running StringUtils tests..."
+                    php tests/StringUtilsTest.php
                 '''
             }
         }
         
         stage('Code Analysis') {
             steps {
-                echo 'Analizare cod...'
+                echo 'Analizarea codului...'
                 sh '''
                     echo "Lines of PHP code:"
                     find src -name "*.php" -exec wc -l {} + | tail -1
@@ -60,13 +63,13 @@ pipeline {
     
     post {
         always {
-            echo '🏁 Pipeline finalizat pentru ${PROJECT_NAME}'
+            echo "Pipeline finalizat pentru ${PROJECT_NAME}"
         }
         success {
-            echo '🎉 SUCCES: Toate testele au trecut!'
+            echo 'SUCCES: Toate testele au trecut!'
         }
         failure {
-            echo '💥 EROARE: Unele teste au eșuat!'
+            echo 'EROARE: Unele teste au eșuat!'
         }
     }
 }
